@@ -7,6 +7,7 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
 import { TodoModule } from './todo/todo.module';
+import { FirebaseModule } from './firebase/firebase.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { TodoModule } from './todo/todo.module';
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
     }),
     TodoModule,
+    FirebaseModule,
   ],
   controllers: [],
   providers: [],
