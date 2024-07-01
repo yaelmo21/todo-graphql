@@ -1,11 +1,22 @@
 import { Injectable } from '@nestjs/common';
 import { CreateTodoInput } from './dto/create-todo.input';
 import { UpdateTodoInput } from './dto/update-todo.input';
+import { FirebaseService } from 'src/firebase/firebase.service';
+import { Todo } from './entities/todo.entity';
 
 @Injectable()
 export class TodoService {
-  create(createTodoInput: CreateTodoInput) {
-    return 'This action adds a new todo';
+  constructor(private readonly firebaseService: FirebaseService) {}
+
+  async create(createTodoInput: CreateTodoInput): Promise<Todo> {
+    const db = this.firebaseService.getDatabase();
+    const ref = db.ref('todos');
+    const newTodo = ref.push();
+    await newTodo.set({
+      ...createTodoInput,
+      dueDate: new Date().getTime(),
+    });
+    return { id: newTodo.key, ...createTodoInput };
   }
 
   findAll() {

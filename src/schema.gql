@@ -3,7 +3,7 @@
 # ------------------------------------------------------
 
 type Todo {
-  id: Int!
+  id: String!
   title: String!
   description: String!
   status: Boolean!
@@ -26,12 +26,30 @@ type Mutation {
 }
 
 input CreateTodoInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  """The title of the todo"""
+  title: String!
+
+  """The description of the todo"""
+  description: String!
+
+  """The due date of the todo"""
+  dueDate: DateTime!
+
+  """The status of the todo"""
+  status: Boolean! = false
 }
 
 input UpdateTodoInput {
-  """Example field (placeholder)"""
-  exampleField: Int
+  """The title of the todo"""
+  title: String
+
+  """The description of the todo"""
+  description: String
+
+  """The due date of the todo"""
+  dueDate: DateTime
+
+  """The status of the todo"""
+  status: Boolean = false
   id: Int!
 }
