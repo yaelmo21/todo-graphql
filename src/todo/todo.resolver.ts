@@ -1,8 +1,8 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { TodoService } from './todo.service';
 import { Todo } from './entities/todo.entity';
-import { CreateTodoInput } from './dto/create-todo.input';
-import { UpdateTodoInput } from './dto/update-todo.input';
+import { CreateTodoInput, UpdateTodoInput } from './dto/inputs';
+import { FiltersArgs } from './dto/args/filters.args';
 
 @Resolver(() => Todo)
 export class TodoResolver {
@@ -13,13 +13,13 @@ export class TodoResolver {
     return this.todoService.create(createTodoInput);
   }
 
-  @Query(() => [Todo], { name: 'todo' })
-  findAll() {
-    return this.todoService.findAll();
+  @Query(() => [Todo], { name: 'findAllTodos' })
+  findAll(@Args() filters: FiltersArgs) {
+    return this.todoService.findAll(filters);
   }
 
-  @Query(() => Todo, { name: 'todo' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
+  @Query(() => Todo, { name: 'findOneTodo' })
+  findOne(@Args('id', { type: () => String }) id: string) {
     return this.todoService.findOne(id);
   }
 
@@ -29,7 +29,7 @@ export class TodoResolver {
   }
 
   @Mutation(() => Todo)
-  removeTodo(@Args('id', { type: () => Int }) id: number) {
+  removeTodo(@Args('id', { type: () => String }) id: string) {
     return this.todoService.remove(id);
   }
 }
